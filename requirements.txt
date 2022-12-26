@@ -1,0 +1,9 @@
+openpyxl
+python-dateutil
+pywin32
+pandas
+mariadb
+psycopg-binary
+apache-airflow
+pyspark
+boto3

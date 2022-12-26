@@ -1,0 +1,73 @@
+#FROM python:3.9-buster
+#
+#USER root
+#
+#WORKDIR /airflow
+#
+#ARG RUN_ENVIRONMENT
+#
+#ENV ENV=${RUN_ENVIRONMENT}
+#
+#ENV PYTHONPATH=/airflow/dags/airflow-dags-analytics
+#ENV AIRFLOW_HOME="/airflow"
+#ENV AIRFLOW_VERSION="2.4.2"
+#ENV PYTHON_VERSION="3.9"
+#ARG PIP_VERSION="21.2.4"
+#ENV PYTHON_PIP_VERSION=${PIP_VERSION}
+#ENV DEBIAN_FRONTEND=noninteractive
+#ENV CONSTRAINT_URL="https://raw.githubusercontent.com/apache/airflow/constraints-$%7BAIRFLOW_VERSION%7D/constraints-$%7BPYTHON_VERSION%7D.txt"
+
+#ENV LANG pt_BR.UTF-8
+#ENV LC_ALL pt_BR.UTF-8
+#ENV LC_CTYPE pt_BR.UTF-8
+#ENV PACKAGES="\
+#  apt-utils \
+#  curl \
+#  libmariadb3 \
+#  gosu \
+#  libffi6 \
+#  libpq5 \
+#  krb5-user \
+#  ldap-utils \
+#  libsasl2-2 \
+#  libsasl2-modules \
+#  libssl1.1 \
+#  netcat \
+#  rsync \
+#  sasl2-bin \
+#  sudo \
+#  tini \
+#  lsb-release \
+#  sasl2-bin \
+#  sqlite3 \
+#  unixodbc \
+#  locales \
+#"
+#
+#
+#RUN apt-get update \
+#    && apt-get upgrade -y --no-install-recommends \
+#    && apt-get clean \
+#    && apt-get install -y --no-install-recommends ${PACKAGES} && \
+#sed -i -e 's/# pt_BR.UTF-8 UTF-8/pt_BR.UTF-8 UTF-8/' /etc/locale.gen && \
+#dpkg-reconfigure --frontend=noninteractive locales
+#
+#RUN pip install --upgrade pip=="${PYTHON_PIP_VERSION}"
+#
+#RUN apt-get update \
+#    && curl -sL https://deb.nodesource.com/setup_14.x | sudo bash - \
+#    && apt-get install -y --no-install-recommends \
+#        build-essential \
+#        default-libmysqlclient-dev \
+#        libffi-dev \
+#        libkrb5-dev \
+#        libpq-dev \
+#        libsasl2-dev \
+#        libssl-dev \
+#    && apt-get clean \
+#    && rm -rf /var/lib/apt/lists/*
+#
+#
+#RUN pip install sxl flask-bcrypt investpy bs4 openpyxl python-dateutil locales scipy numpy_financial
+#
+#RUN pip install "apache-airflow[async,amazon,google, password,cncf.kubernetes, kubernetes,statsd,virtualenv,crypto,celery,postgres,hive,jdbc,mysql,ssh]==${AIRFLOW_VERSION}" --constraint "${CONSTRAINT_URL}"
